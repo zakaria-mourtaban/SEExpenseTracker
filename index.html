@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Expense tracker</title>
-	<link rel="stylesheet" href="styles/style.css">
-</head>
-<body>
-	
-	<script src="scripts/main.js"></script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Expense tracker</title>
+		<link rel="stylesheet" href="styles/style.css" />
+	</head>
+	<body>
+		<div class="container">
+			<div class="incomecontainer"></div>
+			<div class="expensecontainer"></div>
+		</div>
+		<div>
+			<div class="transactioncreator">
+				<h1>Create transaction</h1>
+				<input type="text" placeholder="name" id="nameinput" />
+				<input type="number" placeholder="amount" id="amountinput" />
+				<input type="date" placeholder="date" id="dateinput" />
+				<select name="type" id="typeinput">
+					<option value="income">income</option>
+					<option value="expense">expense</option>
+				</select>
+				<button id="createbutton">create</button>
+			</div>
+		</div>
+		<script src="scripts/createtransaction.js"></script>
+		<script src="scripts/main.js"></script>
+	</body>
 </html>

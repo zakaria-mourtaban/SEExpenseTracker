@@ -1,0 +1,53 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body
+{
+	display: grid;
+	grid-template-columns: 60% 40%; /* Adjust columns as needed */
+	gap: 10px; /* Optional spacing between items */
+}
+
+.container{
+	display: flex;
+}
+
+.incomecontainer, .expensecontainer
+{
+	border-radius: 5px;
+	min-width: 25vw;
+}
+
+.incomecontainer
+{
+	background-color: rgba(0, 255, 0, 0.303);
+	margin-left: auto;
+}
+
+.expensecontainer
+{
+	background-color: rgba(255, 0, 0, 0.303);
+	margin-left: auto;
+}
+
+.incomecontainer > div , .expensecontainer > div{
+	display: flex;
+	gap: 15px;
+	border-bottom: 2px solid grey;
+}
+.transactioncreator {
+	background-color: rgb(192, 192, 192);
+	padding: 10px;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	height: 250px;
+	gap: 15px;
+	margin-left: auto;
+}
+.redplaceholder::placeholder {
+	color: red;
+}

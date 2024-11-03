@@ -93,7 +93,7 @@ createButton.addEventListener("click", () => {
 });
 
 function updateIncome(filter = () => true) {
-	incomeContainer.innerHTML = "";
+	incomeContainer.innerHTML = "<h1>Income</h1>";
 	incomeContainer.appendChild(transactiondiv("Title", "Amount", "Date", 1));
 	expenseTracker
 		.getTransactions()
@@ -114,7 +114,7 @@ function updateIncome(filter = () => true) {
 }
 
 function updateExpense(filter = () => true) {
-	expenseContainer.innerHTML = "";
+	expenseContainer.innerHTML = "<h1>Expense</h1>";
 	expenseContainer.appendChild(transactiondiv("Title", "Amount", "Date", 1));
 	expenseTracker
 		.getTransactions()

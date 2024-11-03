@@ -1,21 +1,25 @@
-// transaction based
-// local storage
-// track income and expenses, the money we make, what we spend it on
-// total budget, ie what the money has been spent on and the money we have left
-class transaction {
+const nameInput = document.getElementById("nameinput");
+const amountInput = document.getElementById("amountinput");
+const typeInput = document.getElementById("typeinput");
+const dateInput = document.getElementById("dateinput");
+dateInput.valueAsDate = new Date();
+const createButton = document.getElementById("createbutton");
+const incomeContainer = document.querySelector(".incomecontainer");
+const expenseContainer = document.querySelector(".expensecontainer");
+class Transaction {
 	constructor(title, amount, earned, time) {
 		this.title = title;
-		this.amount = amount;
+		this.amount = parseFloat(amount);
 		this.earned = earned;
-		this.time = time;
-		this.index;
+		this.time = time || new Date();
+		this.index = null;
 	}
 }
-
-class tracker {
+class Tracker {
 	constructor() {
 		this.transactions = [];
-		this.currentindex = 0;
+		this.currentIndex = 0;
+		this.loadTransactions();
 	}
 
 	getTransactions() {
@@ -23,119 +27,107 @@ class tracker {
 	}
 
 	addTransaction(transaction) {
-		transaction.index = this.currentindex;
-		this.currentindex++;
-		console.log("added" + JSON.stringify(transaction));
+		transaction.index = this.currentIndex++;
 		this.transactions.push(transaction);
+		this.saveTransactions();
+		console.log("Added:", JSON.stringify(transaction));
 	}
 
-	removeTranscation(transaction) {
-		this.transactions.splice(transaction.index, 1);
+	removeTransaction(transaction) {
+		const index = this.transactions.findIndex(
+			(t) => t.index === transaction.index
+		);
+		if (index > -1) {
+			this.transactions.splice(index, 1);
+			this.saveTransactions();
+		}
+	}
+
+	saveTransactions() {
+		localStorage.setItem("transactions", JSON.stringify(this.transactions));
+	}
+
+	loadTransactions() {
+		const data = localStorage.getItem("transactions");
+		if (data) {
+			this.transactions = JSON.parse(data).map((item) => {
+				const t = new Transaction(
+					item.title,
+					item.amount,
+					item.earned,
+					new Date(item.time)
+				);
+				t.index = item.index;
+				return t;
+			});
+			this.currentIndex = this.transactions.length;
+		}
 	}
 }
+const expenseTracker = new Tracker();
 
-let Expensetracker = new tracker();
-let Ourtransaction = new transaction("groceries", 99, 0);
-
-Expensetracker.addTransaction(Ourtransaction);
-console.log(JSON.stringify(Expensetracker.getTransactions()));
-Expensetracker.removeTranscation(Ourtransaction);
-console.log(JSON.stringify(Expensetracker.getTransactions()));
-
-const nameinput = document.getElementById("nameinput");
-const amountinput = document.getElementById("amountinput");
-const typeinput = document.getElementById("typeinput");
-let dateinput = document.getElementById("dateinput");
-dateinput.valueAsDate = new Date()
-const createbutton = document.getElementById("createbutton");
-let incomecontainer = document.querySelector(".incomecontainer");
-let expensecontainer = document.querySelector(".expensecontainer");
-incomecontainer.appendChild(
-	transactiondiv(
-		"Title",
-		"Amount",
-		"Date"
-	)
-);
-expensecontainer.appendChild(
-	transactiondiv(
-		"Title",
-		"Amount",
-		"Date"
-	)
-);
-createbutton.addEventListener("click", () => {
-	if (
-		nameinput.value != null &&
-		nameinput.value != "" &&
-		amountinput.value != null &&
-		amountinput.value != ""
-	) {
-		let currenttransaction = new transaction(
-			nameinput.value,
-			amountinput.value,
-			typeinput.value === "income" ? 1 : 0,
-			dateinput.value
+createButton.addEventListener("click", () => {
+	if (nameInput.value && amountInput.value) {
+		const transaction = new Transaction(
+			nameInput.value,
+			amountInput.value,
+			typeInput.value === "income" ? 1 : 0,
+			dateInput.valueAsDate
 		);
-		Expensetracker.addTransaction(currenttransaction);
-		console.log(JSON.stringify(Expensetracker.getTransactions()));
+		expenseTracker.addTransaction(transaction);
 		updateIncome();
 		updateExpense();
 	} else {
-		nameinput.classList.add("redplaceholder");
-		setTimeout(() => {
-			nameinput.classList.remove("redplaceholder");
-		}, 6000);
-		if (amountinput.value == null || amountinput.value == "") {
-			amountinput.classList.add("redplaceholder");
-			setTimeout(() => {
-				amountinput.classList.remove("redplaceholder");
-			}, 6000);
-		}
+		[nameInput, amountInput].forEach((input) => {
+			if (!input.value) {
+				input.classList.add("redplaceholder");
+				setTimeout(
+					() => input.classList.remove("redplaceholder"),
+					6000
+				);
+			}
+		});
 	}
 });
 
+function transactionDiv(title, amount, date) {
+	const div = document.createElement("div");
+	div.classList.add("transaction-item");
+	div.innerHTML = `<span>${title}</span><span>${amount}</span><span>${date}</span>`;
+	return div;
+}
+
 function updateIncome() {
-	const changedate = new Date();
-	incomecontainer.innerHTML = "";
-	incomecontainer.appendChild(
-		transactiondiv(
-			"Title",
-			"Amount",
-			"Date"
-		)
-	);
-	Expensetracker.getTransactions().forEach((transaction) => {
-		if (transaction.earned === 1)
-			incomecontainer.appendChild(
-				transactiondiv(
+	incomeContainer.innerHTML = "";
+	incomeContainer.appendChild(transactionDiv("Title", "Amount", "Date"));
+	expenseTracker.getTransactions().forEach((transaction) => {
+		if (transaction.earned === 1) {
+			incomeContainer.appendChild(
+				transactionDiv(
 					transaction.title,
 					transaction.amount,
-					changedate.toLocaleDateString(transaction.time),
+					new Date(transaction.time).toLocaleDateString()
 				)
 			);
+		}
 	});
 }
 
 function updateExpense() {
-	const changedate = new Date();
-	expensecontainer.innerHTML = "";
-	expensecontainer.appendChild(
-		transactiondiv(
-			"Title",
-			"Amount",
-			"Date"
-		)
-	);
-	Expensetracker.getTransactions().forEach((transaction) => {
+	expenseContainer.innerHTML = "";
+	expenseContainer.appendChild(transactionDiv("Title", "Amount", "Date"));
+	expenseTracker.getTransactions().forEach((transaction) => {
 		if (transaction.earned === 0) {
-			expensecontainer.appendChild(
-				transactiondiv(
+			expenseContainer.appendChild(
+				transactionDiv(
 					transaction.title,
 					transaction.amount,
-					changedate.toLocaleDateString(transaction.time)
+					new Date(transaction.time).toLocaleDateString()
 				)
 			);
 		}
 	});
 }
+
+updateIncome();
+updateExpense();

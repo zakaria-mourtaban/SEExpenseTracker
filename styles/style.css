@@ -1,53 +1,77 @@
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body
-{
-	display: grid;
-	grid-template-columns: 60% 40%; /* Adjust columns as needed */
-	gap: 10px; /* Optional spacing between items */
+body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
 }
 
-.container{
-	display: flex;
+.container {
+    display: flex;
+    flex-direction: row;
 }
 
-.incomecontainer, .expensecontainer
-{
-	border-radius: 5px;
-	min-width: 25vw;
+.incomecontainer, 
+.expensecontainer {
+    border-radius: 10px;
+    min-width: 25vw;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.incomecontainer
-{
-	background-color: rgba(0, 255, 0, 0.303);
-	margin-left: auto;
+.incomecontainer {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-left: 5px solid #4caf50;
 }
 
-.expensecontainer
-{
-	background-color: rgba(255, 0, 0, 0.303);
-	margin-left: auto;
+.expensecontainer {
+    background-color: rgba(255, 87, 34, 0.1);
+    border-left: 5px solid #ff5722;
 }
 
-.incomecontainer > div , .expensecontainer > div{
-	display: flex;
-	gap: 15px;
-	border-bottom: 2px solid grey;
+.incomecontainer > div, 
+.expensecontainer > div {
+    display: flex;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
 }
+
 .transactioncreator {
-	background-color: rgb(192, 192, 192);
-	padding: 10px;
-	border-radius: 5px;
-	display: flex;
-	flex-direction: column;
-	height: 250px;
-	gap: 15px;
-	margin-left: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px 10px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
 }
+
 .redplaceholder::placeholder {
-	color: red;
+    color: #ff5722;
+}
+
+.filtering {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.budget {
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }

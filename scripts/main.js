@@ -64,6 +64,7 @@ class Tracker {
 		}
 	}
 }
+
 const expenseTracker = new Tracker();
 
 createButton.addEventListener("click", () => {
@@ -90,39 +91,36 @@ createButton.addEventListener("click", () => {
 	}
 });
 
-function transactionDiv(title, amount, date) {
-	const div = document.createElement("div");
-	div.classList.add("transaction-item");
-	div.innerHTML = `<span>${title}</span><span>${amount}</span><span>${date}</span>`;
-	return div;
-}
-
-function updateIncome() {
+function updateIncome(filter = () => true) {
 	incomeContainer.innerHTML = "";
-	incomeContainer.appendChild(transactionDiv("Title", "Amount", "Date"));
-	expenseTracker.getTransactions().forEach((transaction) => {
+	incomeContainer.appendChild(transactiondiv("Title", "Amount", "Date", 1));
+	expenseTracker.getTransactions().filter(filter).forEach((transaction) => {
 		if (transaction.earned === 1) {
 			incomeContainer.appendChild(
-				transactionDiv(
+				transactiondiv(
 					transaction.title,
 					transaction.amount,
-					new Date(transaction.time).toLocaleDateString()
+					new Date(transaction.time).toLocaleDateString(),
+					null,
+					transaction
 				)
 			);
 		}
 	});
 }
 
-function updateExpense() {
+function updateExpense(filter = () => true) {
 	expenseContainer.innerHTML = "";
-	expenseContainer.appendChild(transactionDiv("Title", "Amount", "Date"));
-	expenseTracker.getTransactions().forEach((transaction) => {
+	expenseContainer.appendChild(transactiondiv("Title", "Amount", "Date", 1));
+	expenseTracker.getTransactions().filter(filter).forEach((transaction) => {
 		if (transaction.earned === 0) {
 			expenseContainer.appendChild(
-				transactionDiv(
+				transactiondiv(
 					transaction.title,
 					transaction.amount,
-					new Date(transaction.time).toLocaleDateString()
+					new Date(transaction.time).toLocaleDateString(),
+					null,
+					transaction
 				)
 			);
 		}

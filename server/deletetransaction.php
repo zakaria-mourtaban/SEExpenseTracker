@@ -23,3 +23,6 @@ if ($query->execute()) {
 } else {
 	echo json_encode("['error' => $query->error]");
 }
+
+header('Access-Control-Allow-Origin: *');
+header('Content-type: application/json');

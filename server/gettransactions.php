@@ -1,4 +1,9 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: *');
+header("Access-Control-Allow-Headers: *");
+header('Content-type: application/json');
+header('Referrer-Policy: unsafe-url');
 
 $host = "localhost";
 $dbuser = "root";
@@ -10,7 +15,8 @@ if ($connection->connect_error) {
 	die("Error happened");
 }
 
-$users_id = $_POST['users_id'];
+$users_id = @$_POST["id"];
+// print_r($_REQUEST);
 $query = $connection->prepare("SELECT * FROM `transactions`");
 
 $query->execute();
@@ -28,3 +34,4 @@ if ($result->num_rows > 0) {
 } else {
 	echo json_encode(['error' => $query->error]);
 }
+

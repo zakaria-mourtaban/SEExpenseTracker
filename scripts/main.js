@@ -7,14 +7,14 @@ const createButton = document.getElementById("createbutton");
 const incomeContainer = document.querySelector(".incomecontainer");
 const expenseContainer = document.querySelector(".expensecontainer");
 const budgetelement = document.querySelector(".budget h2");
-budgetelement.innerHTML = 1000;
+let userid = 1;
 class Transaction {
-	constructor(title, amount, earned, time) {
+	constructor(title, amount, earned, time, index) {
 		this.title = title;
 		this.amount = parseFloat(amount);
 		this.earned = earned;
 		this.time = time || new Date();
-		this.index = null;
+		this.index = index || null;
 	}
 }
 class Tracker {
@@ -26,6 +26,7 @@ class Tracker {
 
 	getTransactions() {
 		return this.transactions;
+		// return fetch("http://127.0.0.1/gettransactions.php").then((res) => JSON.parse(res.json()))
 	}
 
 	addTransaction(transaction) {
@@ -46,29 +47,54 @@ class Tracker {
 	}
 
 	saveTransactions() {
-		localStorage.setItem("transactions", JSON.stringify(this.transactions));
+		// localStorage.setItem("transactions", JSON.stringify(this.transactions));
+		axios.post(
+			"http://127.0.0.1/createtransaction.php",
+			new URLSearchParams({
+				user_id: userid,
+			}),
+			{
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+				},
+			}
+		)
 	}
 
 	loadTransactions() {
-		const data = localStorage.getItem("transactions");
-		if (data) {
-			this.transactions = JSON.parse(data).map((item) => {
-				const t = new Transaction(
-					item.title,
-					item.amount,
-					item.earned,
-					new Date(item.time)
-				);
-				t.index = item.index;
-				return t;
+		let data = axios
+			.post(
+				"http://127.0.0.1/gettransactions.php",
+				new URLSearchParams({
+					id: userid,
+				}),
+				{
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+					},
+				}
+			)
+			.then((res) => {
+				this.transactions = res.data.map((item) => {
+					console.log(item)
+					const t = new Transaction(
+						item.title,
+						item.amount,
+						item.earned,
+						new Date(item.date),
+						item.transaction_id
+					);
+					t.index = item.index;
+					return t;
+				});
+				this.currentIndex = this.transactions.length;
+				updateUI()
 			});
-			this.currentIndex = this.transactions.length;
-		}
 	}
 }
 
 const expenseTracker = new Tracker();
-
+// console.log(expenseTracker.getTransactions())
 createButton.addEventListener("click", () => {
 	if (nameInput.value && amountInput.value) {
 		const transaction = new Transaction(

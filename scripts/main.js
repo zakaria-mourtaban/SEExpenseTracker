@@ -35,22 +35,25 @@ class Tracker {
   }
 
   addTransaction(transaction) {
-    axios.post(
-      "http://localhost/createtransaction.php",
-      new URLSearchParams({
-        id: userid,
-        title: transaction.title,
-        amount: transaction.amount,
-        date: transaction.date,
-        earned: transaction.earned,
-      }),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
-    this.loadTransactions();
+    axios
+      .post(
+        "http://localhost/createtransaction.php",
+        new URLSearchParams({
+          id: userid,
+          title: transaction.title,
+          amount: transaction.amount,
+          date: transaction.time,
+          earned: transaction.earned,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then(() => {
+        this.loadTransactions();
+      });
   }
 
   removeTransaction(transaction) {
@@ -123,10 +126,10 @@ createButton.addEventListener("click", () => {
       nameInput.value,
       amountInput.value,
       typeInput.value === "income" ? 1 : 0,
-      new Date(dateInput.value),
+      dateInput.value
     );
     expenseTracker.addTransaction(transaction);
-	expenseTracker.loadTransactions()
+    expenseTracker.loadTransactions();
     updateUI();
   } else {
     [nameInput, amountInput].forEach((input) => {

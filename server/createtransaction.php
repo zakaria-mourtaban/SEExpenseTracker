@@ -19,6 +19,7 @@ $users_id = $_POST['id'];
 $amount = $_POST['amount'];
 $title = $_POST['title'];
 $date = $_POST['date'];
+echo $date;
 $earned = $_POST['earned'];
 
 // Prepare the SQL statement with corrected column names

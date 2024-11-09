@@ -1,66 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Expense tracker</title>
-		<link rel="stylesheet" href="styles/style.css" />
-	</head>
-	<body>
-		<div class="container">
-			<div class="incomecontainer">
-				<h1>Income</h1>
-			</div>
-			<div class="expensecontainer">
-				<h1>Expense</h1>
-			</div>
-		</div>
-		<div>
-			<div class="transactioncreator">
-				<h1>Create transaction</h1>
-				<input type="text" placeholder="name" id="nameinput" />
-				<input type="number" placeholder="amount" id="amountinput" />
-				<input type="date" placeholder="date" id="dateinput" />
-				<select name="type" id="typeinput">
-					<option value="income">income</option>
-					<option value="expense">expense</option>
-				</select>
-				<button id="createbutton">Add</button>
-			</div>
-			<div class="information">
-				<div class="budget">
-				<h2></h2>
-				</div>
-				<div class="filtering">
-					<h2>Filter Transactions</h2>
-					<label for="minAmount">Min Amount:</label>
-					<input
-						type="number"
-						id="minAmount"
-						placeholder="Min Amount"
-					/>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register</title>
+    <link rel="stylesheet" href="styles/login.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <input type="text" id="loginUsername" placeholder="Username" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button type="submit">Login</button>
+            <p id="loginMessage"></p>
+        </form>
 
-					<label for="maxAmount">Max Amount:</label>
-					<input
-						type="number"
-						id="maxAmount"
-						placeholder="Max Amount"
-					/>
-					<button id="filteramountsbtn">Filter</button>
-
-					<label for="dateFilter">Date:</label>
-					<input type="date" id="dateFilter" />
-					<button id="filterdatesbtn">Filter</button>
-
-					<label for="notesFilter">Notes:</label>
-					<input type="text" id="notesFilter" placeholder="Notes" />
-
-					<button id="filternotesbtn">Filter</button>
-					<button id="resetbtn">Reset</button>
-				</div>
-			</div>
-		</div>
-		<script src="scripts/createtransaction.js"></script>
-		<script src="scripts/main.js"></script>
-	</body>
+        <h1>Register</h1>
+        <form id="registerForm">
+            <input type="text" id="registerUsername" placeholder="Username" required>
+            <input type="password" id="registerPassword" placeholder="Password" required>
+            <button type="submit">Register</button>
+            <p id="registerMessage"></p>
+        </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <script src="scripts/login.js"></script>
+</body>
 </html>

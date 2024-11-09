@@ -1,9 +1,7 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: *');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: *");
 header("Access-Control-Allow-Headers: *");
-header('Content-type: application/json');
-header('Referrer-Policy: unsafe-url');
 
 $host = "localhost";
 $dbuser = "root";
@@ -26,7 +24,7 @@ $result = $query->get_result();
 if ($result->num_rows > 0) {
 	$array = [];
 	while ($row = $result->fetch_assoc()) {
-		if ($row['users_id'] == $users_id) {
+		if ($row['user_id'] == $users_id) {
 			$array[] = $row;
 		}
 	}

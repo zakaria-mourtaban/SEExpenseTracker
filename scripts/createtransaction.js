@@ -28,6 +28,7 @@ function transactiondiv(title, amount, date, istitle, transaction) {
 		amountInput.value = transaction.amount;
 		dateInput.valueAsDate = new Date(transaction.time);
 		expenseTracker.removeTransaction(transaction);
+		expenseTracker.loadTransactions()
 		updateExpense();
 		updateIncome();
 	};
@@ -37,6 +38,7 @@ function transactiondiv(title, amount, date, istitle, transaction) {
 	deleteButton.style.textAlign = "center";
 	deleteButton.onclick = function () {
 		expenseTracker.removeTransaction(transaction);
+		expenseTracker.loadTransactions()
 		updateExpense();
 		updateIncome();
 	};
